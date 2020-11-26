@@ -5,6 +5,7 @@ option(PXX2 "PXX2 protocol support" OFF)
 option(AFHDS3 "AFHDS3 TX Module" ON)
 option(MULTIMODULE "DIY Multiprotocol TX Module (https://github.com/pascallanger/DIY-Multiprotocol-TX-Module)" ON)
 option(GHOST "Ghost TX Module" ON)
+option(HARDWARE_EXTERNAL_ACCESS_MOD "Support for R9M 2019 hardware mod" OFF)
 
 set(PWR_BUTTON "PRESS" CACHE STRING "Pwr button type (PRESS/SWITCH)")
 set(CPU_TYPE STM32F4)
@@ -139,6 +140,12 @@ if(NOT UNEXPECTED_SHUTDOWN)
   add_definitions(-DNO_UNEXPECTED_SHUTDOWN)
 endif()
 
+if(HARDWARE_EXTERNAL_ACCESS_MOD)
+  set(PXX2 ON)
+  set(AUX_SERIAL OFF)
+  add_definitions(-DHARDWARE_EXTERNAL_ACCESS_MOD)
+endif()
+
 if(INTERNAL_MODULE_PXX1)
   add_definitions(-DHARDWARE_INTERNAL_MODULE)
   add_definitions(-DINTERNAL_MODULE_PXX1)
@@ -202,6 +209,10 @@ endif()
 
 if(PXX2)
   set(GUI_SRC ${GUI_SRC} radio_power_meter.cpp)
+endif()
+
+if(GHOST)
+  set(GUI_SRC ${GUI_SRC} radio_ghost_menu.cpp)
 endif()
 
 if(DISK_CACHE)

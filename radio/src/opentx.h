@@ -539,6 +539,8 @@ bool setTrimValue(uint8_t phase, uint8_t idx, int trim);
   #define ROTARY_ENCODER_GRANULARITY (2 << g_eeGeneral.rotarySteps)
 #elif defined(RADIO_FAMILY_T16) && !defined(RADIO_T18)
   #define ROTARY_ENCODER_GRANULARITY (1)
+#elif defined(RADIO_TX12)
+  #define ROTARY_ENCODER_GRANULARITY (1)
 #else
   #define ROTARY_ENCODER_GRANULARITY (2)
 #endif
@@ -852,7 +854,8 @@ enum FunctionsActive {
 #endif
   FUNCTION_BACKGND_MUSIC,
   FUNCTION_BACKGND_MUSIC_PAUSE,
-  FUNCTION_RACING_MODE
+  FUNCTION_BACKLIGHT,
+  FUNCTION_RACING_MODE,
 };
 
 #define VARIO_FREQUENCY_ZERO   700/*Hz*/
@@ -1125,6 +1128,15 @@ union ReusableBuffer
     uint8_t dirty;
     uint8_t moduleOFF;
   } spectrumAnalyser;
+
+#if defined(GHOST)
+  struct {
+    GhostMenuData line[GHST_MENU_LINES + 1];
+    uint8_t menuFlags;
+    uint8_t menuAction;
+    uint8_t buttonAction;
+  } ghostMenu;
+#endif
 
   struct {
     uint32_t freq;

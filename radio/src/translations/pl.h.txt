@@ -316,6 +316,9 @@
 #elif defined(RADIO_T12)
   #define LEN_VKEYS                    "\005"
   #define TR_VKEYS                     "Exit\0""Enter""Down\0""Up\0  ""Right""Left\0"
+#elif defined(RADIO_TX12)
+  #define LEN_VKEYS                    "\005"
+  #define TR_VKEYS                     "Exit\0""Enter""Up\0  ""Down\0""SYS\0 ""MDL\0 ""TELE\0"
 #elif defined(PCBTARANIS)
   #define LEN_VKEYS                    "\005"
   #define TR_VKEYS                     "Menu\0""Exit\0""Enter""Page\0""Plus\0""Minus"
@@ -543,6 +546,7 @@
 #define TR_BEEPCOUNTDOWN       INDENT "Odliczanie"
 #define TR_PERSISTENT          TR(INDENT "Dokł.", INDENT "Dokładny")
 #define TR_BACKLIGHT_LABEL     "Podświetl"
+#define TR_GHOST_MENU_LABEL            "GHOST MENU"
 #define TR_BLDELAY             INDENT"Czas trwania"
 #define TR_BLONBRIGHTNESS      INDENT"Jasnośc wł."
 #define TR_BLOFFBRIGHTNESS     INDENT"Jasność wył."
@@ -862,6 +866,7 @@
 #define TR_FLASH_INTERNAL_MULTI        TR("Flash Int. Multi", "Flash Internal Multi")
 #define TR_FLASH_EXTERNAL_MODULE       "Flash external module"
 #define TR_FLASH_EXTERNAL_MULTI        TR("Flash Ext. Multi", "Flash External Multi")
+#define TR_FLASH_EXTERNAL_ELRS         TR("Flash Ext. ELRS", "Flash External ELRS")
 #define TR_FIRMWARE_UPDATE_ERROR TR("FW update Error","Firmware update error")
 #define TR_FIRMWARE_UPDATE_SUCCESS     "Flash successful"
 #define TR_WRITING                     "Zapis...  "
