@@ -54,7 +54,8 @@
   * @{
   */
 
-#define USBD_VID                            0x0483
+#define USBD_VID_STM                        0x0483    // STM Vendor ID
+#define USBD_VID_PCD                        0x1209    // pid.codes Vendor ID for OSS Projects
 
 #define USBD_LANGID_STRING                  0x409
 #define USBD_MANUFACTURER_STRING            "FrSky"
@@ -71,7 +72,9 @@
 #define USBD_MSC_CONFIGURATION_FS_STRING    "MSC Config"
 #define USBD_MSC_INTERFACE_FS_STRING        "MSC Interface"
 
-#define USBD_HID_PID                        0x5710
+// 0x5710 is the default STM "Joystick FS" PID that maps to the "BETTER_USB_HS" driver
+// 0x5458 is the proposed PID in the pid.codes Vendor ID space. ("TX" in ASCII)
+#define USBD_HID_PID                        0x5458    
 #define USBD_HID_PRODUCT_FS_STRING          USB_NAME " Joystick"
 #define USBD_HID_CONFIGURATION_FS_STRING    "HID Config"
 #define USBD_HID_INTERFACE_FS_STRING        "HID Interface"
@@ -128,16 +131,20 @@ __ALIGN_BEGIN uint8_t USBD_StrDesc[USB_MAX_STR_DESC_SIZ] __ALIGN_END ;	// modifi
 */
 uint8_t *  USBD_USR_DeviceDescriptor( uint8_t speed , uint16_t *length)
 {
+  int vid=0;
   int pid=0;
 
   switch (getSelectedUsbMode()) {
     case USB_JOYSTICK_MODE:
+      vid = USBD_VID_PCD;
       pid = USBD_HID_PID;
       break;
     case USB_SERIAL_MODE:
+      vid = USBD_VID_STM;
       pid = USBD_CDC_PID;
       break;
     case USB_MASS_STORAGE_MODE:
+      vid = USBD_VID_STM;
       pid = USBD_MSC_PID;
       break;
   }
@@ -153,8 +160,8 @@ uint8_t *  USBD_USR_DeviceDescriptor( uint8_t speed , uint16_t *length)
       0x00,                       /*bDeviceSubClass*/
       0x00,                       /*bDeviceProtocol*/
       USB_OTG_MAX_EP0_SIZE,       /*bMaxPacketSize*/
-      LOBYTE(USBD_VID),           /*idVendor*/
-      HIBYTE(USBD_VID),           /*idVendor*/
+      LOBYTE(vid),                /*idVendor*/
+      HIBYTE(vid),                /*idVendor*/
       LOBYTE(pid),               /*idVendor*/
       HIBYTE(pid),               /*idVendor*/
       0x00,                       /*bcdDevice rel. 2.00*/
